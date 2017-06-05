@@ -13,7 +13,20 @@
 ?>
 
 <h1>Books</h1>
+<?php
+$this->widget('application.extensions.fancybox.ALFancybox', array(
+    'targetDOM'=> '.fancied',
+    'config'=>array(),
+    )
+);
+?>
 
+
+<div class="search-form">
+<?php $this->renderPartial('_search',array(
+    'model'=>$model,
+)); ?>
+</div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$model->search(),
@@ -23,15 +36,14 @@
         'id',
         array(
             'name' => 'name',
-            'value' => 'CHtml::link( $data->name, array(\'books/view\',\'id\'=>$data->id))',
+            'value'=> $model->name,
             'type' => 'html',
         ),
         array(
             'name' => 'preview',
             'header' => 'Превью',
-            'type' => 'image',
-            'htmlOptions' => array('class' => 'preview-image'),
-            'value' => $model->preview
+            'type' => 'html',
+            'value' => 'Chtml::link("<img src=".$data->preview."></<img>", array($data->preview), array(\'class\'=>\'fancied preview-image\'))',
         ),
         array(
             'name' => 'author_id',
@@ -54,10 +66,12 @@
 
         ),
         array(
-            'name' => 'Action',
-            'value' => 'CHtml::link(\'show about\',array(\'books/view\',\'id\'=>$data->id))',
+            'name' => 'View',
+            'value' => 'CHtml::link(\'show about\',array(\'books/ajax\',\'id\'=>$data->id))',// array(\'class\'=>\'fancied\'))',
+            'htmlOptions' => array('class'=>'fancied'),
             'filter' => '',
             'type' => 'html',
         ),
+        
     ),
 )); ?>
